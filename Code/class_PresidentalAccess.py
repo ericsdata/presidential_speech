@@ -4,6 +4,10 @@ Created on Wed Feb 24 19:39:43 2021
 
 Program to access set of presidential speeches by name or number
 
+President class can be accessed for reasons
+- Pull speech by identifier, name, or all - differnment preprocessing methods
+- Return basic statistics about speeches
+
 @author: eachr
 """
 

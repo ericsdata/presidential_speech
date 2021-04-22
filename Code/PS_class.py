@@ -2,6 +2,14 @@
 """
 Created on Sun Feb 28 18:42:30 2021
 
+Envisioned method to process a speech
+Processing options:
+- Single string of unformatted text
+- single document made up of BGN and EOF tags at each sentence, speakers identified by speaking order
+
+
+Does this need to be a class?
+
 @author: eachr
 """
 
