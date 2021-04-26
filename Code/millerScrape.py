@@ -60,10 +60,53 @@ TRANSCRIPT
 import requests
 from bs4 import BeautifulSoup
 
+import time
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
 #site of list of all president names, need to a
+
+## Selenium
+
 url = "https://millercenter.org/the-presidency/presidential-speeches"
 
-page = requests.get(url)
+
+
+#make browser
+browser = webdriver.Chrome()
+
+browser.get(url)
+time.sleep(1)
+
+elem = browser.find_element_by_tag_name("body")
+
+
+## Lets scroll 500 times down
+no_pagedowns = 500
+
+while no_pagedowns:
+    elem.send_keys(Keys.PAGE_DOWN)
+    time.sleep(0.5)
+    no_pagedowns -= 1
+
+
+links = browser.find_elements_by_tag_name("a")
+pp = browser.find_elements_by_class_name('field-content')
+
+lt = browser.find_elements_by_link_text("presidential-speeches")
+
+
+
+temp = []
+for link in pp:
+    temp.append(link.getAttribute('href'))
+
+
+
+
+url2 ="https://millercenter.org/views/ajax?_wrapper_format=drupal_ajax"
+
+page = requests.get(url2)
 
 soup = BeautifulSoup(page.content,'html.parser')
 
