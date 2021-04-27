@@ -1,12 +1,17 @@
 
 '''
 Script written to scrape speech transcripts from Miller Center repository
+Two step scrape
 
-HTML notes
+1. Page that hosts speeches contains links to each individual speech by each president. Selenium employed to deal with links hidden by infinite scrolling. 
+Final product is link of links to scrape
+
+2. Looping through links and scraping individual pages for Speech Name, President, Date and Content
 
 
-
-
+'''
+'''
+HTML Samples
 view-source:https://millercenter.org/the-presidency/presidential-speeches
 
 
@@ -60,27 +65,26 @@ TRANSCRIPT
 import requests
 from bs4 import BeautifulSoup
 
+import regex as re
+
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-#site of list of all president names, need to a
-
-## Selenium
-
+## Url of page
+### Speeches are hidden by an infitie scroll
 url = "https://millercenter.org/the-presidency/presidential-speeches"
 
-
-
+## Use seleium to open browser
 #make browser
 browser = webdriver.Chrome()
-
+#fetch site
 browser.get(url)
 time.sleep(1)
-
+## Get HTML body
 elem = browser.find_element_by_tag_name("body")
 
-
+## Set up
 ## Lets scroll 500 times down
 no_pagedowns = 500
 
@@ -90,16 +94,19 @@ while no_pagedowns:
     no_pagedowns -= 1
 
 
-links = browser.find_elements_by_tag_name("a")
-pp = browser.find_elements_by_class_name('field-content')
+## From above HTML sample, field content is target
+speech_rows = browser.find_elements_by_class_name('field-content')
 
-lt = browser.find_elements_by_link_text("presidential-speeches")
-
-
-
+## Loop through and pull out html within field content tags
 temp = []
-for link in pp:
-    temp.append(link.getAttribute('href'))
+for html in speech_rows:
+    #extract string from html
+    html_txt = html.get_attribute('innerHTML')
+    # if match append matched group to list
+    match_url = re.search('href="(.*)"', html_txt)
+    match_sppech = re.search
+    if match:
+        temp.append(match.group(1))
 
 
 
