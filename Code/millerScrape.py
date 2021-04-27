@@ -99,15 +99,23 @@ speech_rows = browser.find_elements_by_class_name('field-content')
 
 ## Loop through and pull out html within field content tags
 temp = []
+url_pref = 'https://millercenter.org'
 for html in speech_rows:
     #extract string from html
     html_txt = html.get_attribute('innerHTML')
     # if match append matched group to list
-    match_url = re.search('href="(.*)"', html_txt)
+    match_url = re.search('href=\"(.*)\"', html_txt)
     match_sppech = re.search
     if match:
-        temp.append(match.group(1))
+        ## add url prefix
+        speech_url = url_pref + match_url.group(1)
+        temp.append(speech_url)
 
+
+def ScrapPS(url):
+
+    page = requests.get(url)
+    soup = BeautifulSoup(page.content,'html.parser')
 
 
 
@@ -117,5 +125,3 @@ page = requests.get(url2)
 
 soup = BeautifulSoup(page.content,'html.parser')
 
-## Parse through HREF - append url to direct to each speech page
-f = soup.findall(class_ = 'views-row')
